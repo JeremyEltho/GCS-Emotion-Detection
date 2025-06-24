@@ -196,7 +196,7 @@ def analyze_audio_file(audio_url, temp_path="/tmp/test.wav"):
             os.remove(temp_path)
 
 
-# === Speech Recognition ===
+# Speech recognition
 def transcribe_audio(file_path):
     """Convert audio file to text using Google Speech Recognition."""
     recognizer = sr.Recognizer()
@@ -211,12 +211,12 @@ def transcribe_audio(file_path):
             return f"Speech recognition service error: {e}"
 
 
-# === File Download ===
+# download
 def download_audio_from_gcs(url, save_path):
     """Download audio file from Google Cloud Storage."""
     urllib.request.urlretrieve(url, save_path)
 
-# === Summary Generation ===
+# Summary
 def generate_summary_with_gemini(text):
     """
     Generate a bullet point summary of the transcribed text using Gemini 1.5 Flash.
@@ -254,7 +254,38 @@ def generate_summary_with_gemini(text):
         return f"Error generating summary: {str(e)}"
 
 
-# === Main Pipeline ===
+def get_supported_emotions():
+    """
+    Get list of all supported emotions across all models.
+    
+    Returns:
+        dict: Dictionary mapping model names to their supported emotions
+    """
+    if not model_cache.is_ready():
+        return {}
+    
+    emotions_by_model = {}
+    for model_name, model_data in model_cache.get_models().items():
+        model_short = model_name.split('/')[-1]
+        emotions_by_model[model_short] = model_data['labels']
+    
+    return emotions_by_model
+
+
+def get_all_unique_emotions():
+    """
+    Get set of all unique emotions supported across all models.
+    
+    Returns:
+        set: Set of all unique emotion labels
+    """
+    all_emotions = set()
+    for model_data in model_cache.get_models().values():
+        all_emotions.update(model_data['labels'])
+    return sorted(all_emotions)
+
+
+# Main
 if __name__ == "__main__":
     print("Speech Emotion Recognition System")
     print("=================================\n")
