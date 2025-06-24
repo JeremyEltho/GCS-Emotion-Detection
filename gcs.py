@@ -285,20 +285,45 @@ def get_all_unique_emotions():
     return sorted(all_emotions)
 
 
+def validate_environment():
+    """
+    Validate that all required environment variables are set.
+    
+    Returns:
+        tuple: (is_valid, error_messages)
+    """
+    errors = []
+    
+    audio_url = os.getenv("AUDIO_URL")
+    if not audio_url:
+        errors.append("AUDIO_URL not found in environment variables")
+    elif not audio_url.startswith(('http://', 'https://')):
+        errors.append("AUDIO_URL must be a valid HTTP/HTTPS URL")
+    
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    if not gemini_key:
+        errors.append("GEMINI_API_KEY not found (AI summary will be disabled)")
+    
+    return len(errors) == 0, errors
+
+
 # Main
 if __name__ == "__main__":
     print("Speech Emotion Recognition System")
     print("=================================\n")
     
+    # Validate environment variables
+    is_valid, validation_errors = validate_environment()
+    if not is_valid:
+        print("Environment validation failed:")
+        for error in validation_errors:
+            print(f"- {error}")
+        exit(1)
+
     # Get configuration from environment
     audio_url = os.getenv("AUDIO_URL")
     temp_audio_path = os.getenv("TEMP_AUDIO_PATH", "/tmp/test.wav")
     
-    if not audio_url:
-        print("Error: AUDIO_URL not found in environment variables.")
-        print("Please create a .env file with AUDIO_URL=<your_audio_url>")
-        exit(1)
-
     # Check if models are ready
     if not model_cache.is_ready():
         print("Error: Models failed to load properly.")
