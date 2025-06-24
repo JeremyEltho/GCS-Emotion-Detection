@@ -1,16 +1,17 @@
-# Speech Emotion Recognition
+# Speech Emotion Recognition with AI Summary
 
-A Python application that analyzes emotional content in speech by downloading audio files, transcribing speech to text, and predicting emotions using multiple pre-trained machine learning models.
+A Python application that analyzes emotional content in speech by downloading audio files, transcribing speech to text, predicting emotions using multiple pre-trained machine learning models, and generating AI-powered summaries using Google's Gemini API.
 
 ## Features
 
-- Downloads audio files from cloud storage (Google Cloud Storage)
-- Transcribes speech to text using Google's Speech Recognition API
-- Analyzes emotions using three different pre-trained models:
+- **Audio Processing**: Downloads audio files from cloud storage (Google Cloud Storage)
+- **Speech-to-Text**: Transcribes speech using Google's Speech Recognition API
+- **Emotion Analysis**: Analyzes emotions using three different pre-trained models:
   - Cardiff NLP Twitter RoBERTa (11 emotions)
   - BERT Go Emotion (28 emotions)
   - DistilRoBERTa English (7 emotions)
-- Returns the best emotion prediction with confidence scores
+- **AI Summarization**: Generates bullet point summaries using Google Gemini 1.5 Flash
+- **Performance Optimized**: Model caching for fast repeated analysis
 
 ## Installation
 
@@ -48,14 +49,24 @@ The script will:
 
 - `AUDIO_URL`: URL to your audio file (required)
 - `TEMP_AUDIO_PATH`: Temporary path for downloaded audio (optional, defaults to `/tmp/test.wav`)
+- `GEMINI_API_KEY`: Google Gemini API key for AI summaries (required for summary feature)
+
+## Output
+
+The script provides comprehensive analysis:
+1. **Full transcript** of the audio
+2. **Emotion predictions** from all three models with confidence scores
+3. **Best prediction** with highest confidence
+4. **AI-generated bullet point summary** of the speech content
 
 ## Dependencies
 
-- PyTorch: Neural network framework
-- Transformers: Hugging Face pre-trained models
-- SpeechRecognition: Audio transcription
-- NumPy: Numerical operations
-- python-dotenv: Environment variable management
+- **PyTorch**: Neural network framework for emotion models
+- **Transformers**: Hugging Face pre-trained models
+- **SpeechRecognition**: Audio transcription
+- **NumPy**: Numerical operations
+- **python-dotenv**: Environment variable management
+- **google-generativeai**: Google Gemini API for AI summaries
 
 ## Supported Emotions
 
