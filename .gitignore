@@ -1,6 +1,10 @@
 # Environment variables
 .env
 
+# Logs
+*.log
+emotion_analysis.log
+
 # Python
 __pycache__/
 *.py[cod]
