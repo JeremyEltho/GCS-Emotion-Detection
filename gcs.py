@@ -6,9 +6,21 @@ import speech_recognition as sr
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from dotenv import load_dotenv
 import google.generativeai as genai
+import logging
+from datetime import datetime
 
 # Load environment variables
 load_dotenv()
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('emotion_analysis.log'),
+        logging.StreamHandler()
+    ]
+)
 
 # Configure Gemini API
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
